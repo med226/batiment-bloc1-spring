@@ -23,5 +23,5 @@ jobs:
 
       - name: Lancer les tests Selenium
         run: |
-          cd api
+          cd api/selenium-tests
           mvn test
