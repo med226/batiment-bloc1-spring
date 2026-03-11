@@ -27,6 +27,7 @@ public class ContactTest {
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--window-size=430,932");
 
         WebDriver driver = new ChromeDriver(options);
 
@@ -41,8 +42,8 @@ public class ContactTest {
             JavascriptExecutor js = (JavascriptExecutor) driver;
 
             WebElement contactTab = driver.findElement(
-                By.xpath("//button[contains(normalize-space(.),'Contact')] | //a[contains(normalize-space(.),'Contact')]")
-            );
+                    By.xpath(
+                            "//button[contains(normalize-space(.),'Contact')] | //a[contains(normalize-space(.),'Contact')]"));
             js.executeScript("arguments[0].click();", contactTab);
 
             Thread.sleep(1000);
