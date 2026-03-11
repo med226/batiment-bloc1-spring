@@ -6,9 +6,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.time.Duration;
+import java.io.File;
 
 public class ContactTest {
 
@@ -22,21 +22,27 @@ public class ContactTest {
     @Test
     public void testContactForm() throws Exception {
         WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+
+        WebDriver driver = new ChromeDriver(options);
 
         try {
             driver.manage().window().setSize(new Dimension(430, 932));
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+            File page = new File("../frontend/index.html");
+            driver.get(page.toURI().toString());
+
+            Thread.sleep(2000);
+
             JavascriptExecutor js = (JavascriptExecutor) driver;
 
-            driver.get("file:///C:/Users/moham/gestion-cda/batiment-bloc1-spring/api/frontend/index.html");
-
-            wait.until(d -> js.executeScript("return document.readyState").equals("complete"));
-
-            // Activer explicitement l'onglet Contact
             WebElement contactTab = driver.findElement(
-                    By.xpath(
-                            "//button[contains(normalize-space(.),'Contact')] | //a[contains(normalize-space(.),'Contact')]"));
+                By.xpath("//button[contains(normalize-space(.),'Contact')] | //a[contains(normalize-space(.),'Contact')]")
+            );
             js.executeScript("arguments[0].click();", contactTab);
 
             Thread.sleep(1000);
@@ -45,23 +51,16 @@ public class ContactTest {
             WebElement tel = driver.findElement(By.id("tel"));
             WebElement email = driver.findElement(By.id("email"));
             WebElement message = driver.findElement(By.id("message"));
+            WebElement bouton = driver.findElement(By.cssSelector("button[type='submit']"));
 
-            js.executeScript("arguments[0].scrollIntoView({block:'center'});", nom);
-            Thread.sleep(500);
-
-            // Remplissage via JavaScript pour éviter le problème "not interactable"
             setValueWithJs(driver, nom, "Test Selenium");
             setValueWithJs(driver, tel, "0600000000");
             setValueWithJs(driver, email, "test@test.com");
             setValueWithJs(driver, message, "Test automatique");
 
-            WebElement bouton = driver.findElement(By.cssSelector("button[type='submit']"));
-            js.executeScript("arguments[0].scrollIntoView({block:'center'});", bouton);
-            Thread.sleep(500);
             js.executeScript("arguments[0].click();", bouton);
 
-            Thread.sleep(3000);
-
+            Thread.sleep(1000);
         } finally {
             driver.quit();
         }
