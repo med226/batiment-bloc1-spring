@@ -2,27 +2,26 @@ name: Selenium CI
 
 on:
   push:
-    branches: ["main", "master"]
-  pull_request:
-    branches: ["main", "master"]
+    branches: [main]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Recuperer le code
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Installer Java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
+          distribution: "temurin"
           java-version: "17"
-          cache: maven
 
       - name: Installer Chrome
         uses: browser-actions/setup-chrome@v1
 
-      - name: Lancer les tests Maven
-        run: mvn test
+      - name: Lancer les tests Selenium
+        run: |
+          cd api
+          mvn test
