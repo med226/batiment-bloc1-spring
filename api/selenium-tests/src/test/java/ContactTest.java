@@ -1,4 +1,4 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -7,8 +7,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.time.Duration;
 
 public class ContactTest {
 
@@ -21,8 +24,6 @@ public class ContactTest {
 
     @Test
     public void testContactForm() throws Exception {
-        WebDriverManager.chromedriver().setup();
-
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
@@ -33,26 +34,27 @@ public class ContactTest {
 
         try {
             driver.manage().window().setSize(new Dimension(430, 932));
-
-            File page = new File("../frontend/index.html");
-            driver.get(page.toURI().toString());
-
-            Thread.sleep(2000);
-
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             JavascriptExecutor js = (JavascriptExecutor) driver;
 
-            WebElement contactTab = driver.findElement(
+            File page = new File("../frontend/index.html");
+            Assertions.assertTrue(page.exists(), "Le fichier frontend/index.html est introuvable");
+
+            driver.get(page.toURI().toString());
+
+            wait.until(d -> ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete"));
+
+            WebElement contactTab = wait.until(ExpectedConditions.presenceOfElementLocated(
                     By.xpath(
-                            "//button[contains(normalize-space(.),'Contact')] | //a[contains(normalize-space(.),'Contact')]"));
+                            "//button[contains(normalize-space(.),'Contact')] | //a[contains(normalize-space(.),'Contact')]")));
             js.executeScript("arguments[0].click();", contactTab);
 
-            Thread.sleep(1000);
-
-            WebElement nom = driver.findElement(By.id("nom"));
-            WebElement tel = driver.findElement(By.id("tel"));
-            WebElement email = driver.findElement(By.id("email"));
-            WebElement message = driver.findElement(By.id("message"));
-            WebElement bouton = driver.findElement(By.cssSelector("button[type='submit']"));
+            WebElement nom = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("nom")));
+            WebElement tel = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("tel")));
+            WebElement email = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
+            WebElement message = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("message")));
+            WebElement bouton = wait
+                    .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("button[type='submit']")));
 
             setValueWithJs(driver, nom, "Test Selenium");
             setValueWithJs(driver, tel, "0600000000");
