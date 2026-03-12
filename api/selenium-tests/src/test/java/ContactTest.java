@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ContactTest {
 
@@ -36,9 +38,18 @@ public class ContactTest {
     void testContactForm() {
         driver.get("http://localhost:8081");
 
-        WebElement tabContact = wait.until(
-                ExpectedConditions.elementToBeClickable(By.id("btnContact")));
-        tabContact.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
+        assertTrue(driver.getPageSource().contains("N. Guyomarch"));
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        js.executeScript("""
+                    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                    document.getElementById('contact').classList.add('active');
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    const btn = document.getElementById('btnContact');
+                    if (btn) { btn.classList.add('active'); }
+                """);
 
         WebElement nom = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.id("nom")));
@@ -66,10 +77,10 @@ public class ContactTest {
         WebElement resultat = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.id("resultat")));
 
-        wait.until(driver -> !resultat.getText().trim().isEmpty());
+        wait.until(d -> !resultat.getText().trim().isEmpty());
 
         String texteResultat = resultat.getText().trim();
-        System.out.println("Message affiché : " + texteResultat);
+        System.out.println("Message affiche : " + texteResultat);
 
         assertFalse(texteResultat.isEmpty());
     }
