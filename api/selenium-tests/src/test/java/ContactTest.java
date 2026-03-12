@@ -22,7 +22,6 @@ public class ContactTest {
 
   @BeforeEach
   void setUp() {
-
     ChromeOptions options = new ChromeOptions();
     options.addArguments("--headless=new");
     options.addArguments("--no-sandbox");
@@ -30,21 +29,17 @@ public class ContactTest {
     options.addArguments("--window-size=1920,1080");
 
     driver = new ChromeDriver(options);
-
     wait = new WebDriverWait(driver, Duration.ofSeconds(15));
   }
 
   @Test
   void testContactForm() {
-
     driver.get("http://localhost:8081");
 
-    // Aller à l'écran contact
     WebElement tabContact = wait.until(
         ExpectedConditions.elementToBeClickable(By.id("btnContact")));
     tabContact.click();
 
-    // Attendre les champs du formulaire
     WebElement nom = wait.until(
         ExpectedConditions.visibilityOfElementLocated(By.id("nom")));
 
