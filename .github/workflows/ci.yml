@@ -20,19 +20,19 @@ jobs:
           java-version: "17"
           cache: maven
 
-      - name: Vérifier Chrome présent sur le runner
+      - name: Check Chrome on runner
         run: |
           which google-chrome || true
           /usr/bin/google-chrome --version || true
 
-      - name: Lancer les tests Selenium
+      - name: Run Selenium tests
         env:
           CI: true
         run: |
           cd api/selenium-tests
           mvn -e -DtrimStackTrace=false test
 
-      - name: Publier les rapports de test
+      - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
