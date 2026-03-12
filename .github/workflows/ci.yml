@@ -1,27 +1,29 @@
-name: Selenium CI
+name: Selenium Tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
+  pull_request:
 
 jobs:
-  test:
+  selenium-tests:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Installer Java
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: "temurin"
+          distribution: temurin
           java-version: "17"
+          cache: maven
 
-      - name: Installer Chrome
-        uses: browser-actions/setup-chrome@v2
-        with:
-          install-chromedriver: true
+      - name: Vérifier Chrome présent sur le runner
+        run: |
+          which google-chrome || true
+          /usr/bin/google-chrome --version || true
 
       - name: Lancer les tests Selenium
         env:
