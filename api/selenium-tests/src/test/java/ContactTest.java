@@ -28,7 +28,7 @@ public class ContactTest {
 
     driver = new ChromeDriver(options);
 
-    driver.get("http://localhost:8080/contact");
+    driver.get("http://localhost:8080/index.php");
 
     WebElement nom = driver.findElement(By.name("nom"));
     WebElement email = driver.findElement(By.name("email"));
@@ -55,4 +55,5 @@ public class ContactTest {
       driver.quit();
     }
   }
+}
 }
