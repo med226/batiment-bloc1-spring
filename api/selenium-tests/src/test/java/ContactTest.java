@@ -5,6 +5,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,21 +24,34 @@ public class ContactTest {
     options.addArguments("--disable-dev-shm-usage");
     options.addArguments("--window-size=430,932");
 
+    String chromeBinary = System.getenv("CHROME_BIN");
+    if (chromeBinary != null && !chromeBinary.isBlank()) {
+      options.setBinary(chromeBinary);
+    }
+
     driver = new ChromeDriver(options);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     driver.get("http://localhost:8081/index.html");
 
-    // Ouvrir l’onglet Contact
-    WebElement contactTab = driver.findElement(By.xpath("//button[contains(text(),'Contact')]"));
+    WebElement contactTab = wait.until(
+        ExpectedConditions.elementToBeClickable(
+            By.xpath("//button[contains(text(),'Contact')]")));
     contactTab.click();
 
-    // Remplir le formulaire avec les bons ids
-    driver.findElement(By.id("nom")).sendKeys("Test Selenium");
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nom"))).sendKeys("Test Selenium");
     driver.findElement(By.id("tel")).sendKeys("0600000000");
     driver.findElement(By.id("email")).sendKeys("test@mail.com");
     driver.findElement(By.id("message")).sendKeys("Test automatique");
 
     driver.findElement(By.cssSelector("#contactForm button[type='submit']")).click();
+
+    wait.until(ExpectedConditions.or(
+        ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "demande envoyée avec succès"),
+        ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "envoi en cours"),
+        ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "erreur lors de l'envoi"),
+        ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"),
+            "impossible de contacter l'api spring boot")));
 
     String pageSource = driver.getPageSource().toLowerCase();
 
