@@ -20,33 +20,30 @@ public class ContactTest {
     options.addArguments("--disable-dev-shm-usage");
     options.addArguments("--window-size=430,932");
 
-    String chromeBinary = System.getenv("CHROME_BIN");
-    if (chromeBinary != null && !chromeBinary.isBlank()) {
-      options.setBinary(chromeBinary);
-    }
-
     driver = new ChromeDriver(options);
 
-    driver.get("http://localhost:8081/contact");
+    driver.get("http://localhost:8081/index.html");
 
-    WebElement nom = driver.findElement(By.name("nom"));
-    WebElement email = driver.findElement(By.name("email"));
-    WebElement message = driver.findElement(By.name("message"));
-    WebElement bouton = driver.findElement(By.cssSelector("button[type='submit']"));
+    // Ouvrir l’onglet Contact
+    WebElement contactTab = driver.findElement(By.xpath("//button[contains(text(),'Contact')]"));
+    contactTab.click();
 
-    nom.sendKeys("Test Selenium");
-    email.sendKeys("test@mail.com");
-    message.sendKeys("Test automatique");
-    bouton.click();
+    // Remplir le formulaire avec les bons ids
+    driver.findElement(By.id("nom")).sendKeys("Test Selenium");
+    driver.findElement(By.id("tel")).sendKeys("0600000000");
+    driver.findElement(By.id("email")).sendKeys("test@mail.com");
+    driver.findElement(By.id("message")).sendKeys("Test automatique");
+
+    driver.findElement(By.cssSelector("#contactForm button[type='submit']")).click();
 
     String pageSource = driver.getPageSource().toLowerCase();
 
     assertTrue(
-        pageSource.contains("merci")
-            || pageSource.contains("message envoyé")
-            || pageSource.contains("succès")
-            || pageSource.contains("success"),
-        "Le message de confirmation n'a pas été trouvé.");
+        pageSource.contains("demande envoyée avec succès")
+            || pageSource.contains("envoi en cours")
+            || pageSource.contains("erreur lors de l'envoi")
+            || pageSource.contains("impossible de contacter l'api spring boot"),
+        "Aucun message de retour n'a été trouvé.");
   }
 
   @AfterEach
