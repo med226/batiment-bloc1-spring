@@ -2,417 +2,417 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>N. Guyomarch – Chauffage & Plomberie</title>
+    <title>N. Guyomarch App Mobile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <style>
-      /* ===== RESET ===== */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: "Segoe UI", Arial, sans-serif;
       }
 
       body {
-        font-family: "Segoe UI", Arial, sans-serif;
-        background: #f5f7fa;
-        color: #333;
-        line-height: 1.6;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      /* ===== NAVBAR ===== */
-      .navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        background: #33290d;
-        z-index: 1000;
-        padding: 1rem 2rem;
-      }
-      .nav-container {
-        max-width: 1200px;
-        margin: auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .logo {
-        color: #f5b300;
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
-      .nav-menu {
-        display: flex;
-        list-style: none;
-        gap: 2rem;
-      }
-      .nav-menu a {
-        color: #fff;
-        text-decoration: none;
-        font-weight: 500;
-      }
-      .nav-menu a:hover {
-        color: #f5b300;
-      }
-
-      /* ===== HERO ===== */
-      .hero {
+        background: #e9eef5;
         min-height: 100vh;
-        padding-top: 100px;
-        background: linear-gradient(135deg, #0d2033, #1e3a8a);
-        color: #fff;
         display: flex;
-        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: #333;
       }
-      .hero-layout {
-        max-width: 1200px;
-        margin: auto;
-        padding: 2rem;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 3rem;
-        align-items: center;
+
+      .phone {
+        width: 375px;
+        min-height: 812px;
+        background: #fff;
+        border: 12px solid #1f1f1f;
+        border-radius: 32px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
       }
-      .hero-text h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
+
+      .statusbar {
+        height: 26px;
+        background: #1f1f1f;
       }
-      .hero-text p {
-        font-size: 1.2rem;
-        margin-bottom: 2rem;
+
+      .app-header {
+        background: linear-gradient(135deg, #0d2033, #1e3a8a);
+        color: white;
+        padding: 18px 20px;
+        text-align: center;
       }
-      .cta-button {
-        display: inline-block;
-        padding: 1rem 2rem;
+
+      .app-header h1 {
+        font-size: 22px;
+        margin-bottom: 6px;
+      }
+
+      .app-header p {
+        font-size: 13px;
+        opacity: 0.95;
+      }
+
+      .nav-tabs {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 12px;
+        background: #fff;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .nav-tabs button {
+        border: none;
+        background: #f3f4f6;
+        color: #111827;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .nav-tabs button.active {
         background: #f5b300;
         color: #222;
-        border-radius: 50px;
-        font-weight: bold;
-        text-decoration: none;
-        transition: background 0.3s;
-      }
-      .cta-button:hover {
-        background: #e0a800;
-      }
-      .hero-image img {
-        width: 100%;
-        max-width: 500px;
-        height: auto;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 22px;
-        background: #fff;
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
       }
 
-      /* ===== SECTIONS ===== */
-      .section {
-        max-width: 1200px;
-        margin: auto;
-        padding: 5rem 2rem;
+      .screen {
+        display: none;
+        padding: 18px;
       }
-      .section h2 {
-        text-align: center;
-        font-size: 2.4rem;
-        margin-bottom: 3rem;
-        color: #0d2033;
-        position: relative;
+
+      .screen.active {
+        display: block;
       }
-      .section:not(.contact) h2::after {
-        content: "";
-        width: 80px;
-        height: 4px;
+
+      .hero-card {
+        background: linear-gradient(135deg, #0d2033, #1e3a8a);
+        color: white;
+        border-radius: 20px;
+        padding: 22px 18px;
+        margin-bottom: 18px;
+      }
+
+      .hero-card h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .hero-card p {
+        margin-bottom: 16px;
+        line-height: 1.5;
+        font-size: 14px;
+      }
+
+      .cta {
+        display: inline-block;
         background: #f5b300;
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
+        color: #222;
+        border: none;
+        padding: 12px 16px;
+        border-radius: 999px;
+        font-weight: bold;
+        cursor: pointer;
       }
 
-      /* ===== SERVICES ===== */
-      .services-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
+      .section-title {
+        font-size: 20px;
+        color: #0d2033;
+        margin-bottom: 14px;
       }
-      .service-card {
+
+      .card {
         background: white;
-        padding: 2rem;
-        border-radius: 16px;
-        text-align: center;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-      }
-      .service-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
+        border-radius: 18px;
+        padding: 16px;
+        margin-bottom: 14px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        border: 1px solid #edf2f7;
       }
 
-      /* ===== TARIFS ===== */
-      .tarifs {
-        background: #f5f7fa;
-        padding: 3rem 1rem;
-      }
-      .tarifs .subtitle {
-        text-align: center;
-        margin-bottom: 2.5rem;
-        color: #555;
-      }
-      .trust-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 1.5rem;
-        text-align: center;
-      }
-      .trust-card {
-        background: rgba(255, 255, 255, 0.2);
-        padding: 1.5rem;
-        border-radius: 14px;
-        font-weight: bold;
-        color: #0d2033;
-        transition: transform 0.3s ease;
-      }
-      .trust-card:hover {
-        transform: translateY(-4px);
-      }
-      .trust-card h3 {
-        margin-bottom: 0.5rem;
-        font-style: italic;
-      }
-      .trust-card .price {
-        font-weight: bold;
-        color: #0d2033;
+      .icon {
+        font-size: 28px;
+        margin-bottom: 10px;
       }
 
-      /* ===== CONTACT ===== */
-      .contact {
+      .card h3 {
+        margin-bottom: 8px;
+        color: #0d2033;
+        font-size: 17px;
+      }
+
+      .card p {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .price {
+        margin-top: 8px;
+        color: #0d2033;
+        font-weight: bold;
+      }
+
+      .contact-box {
         background: #0d2033;
         color: white;
+        border-radius: 20px;
+        padding: 16px;
+        margin-bottom: 16px;
       }
-      .contact-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 3rem;
-      }
-      .contact-info {
-        padding: 2rem;
-      }
-      .contact-info .siret-info {
-        margin-top: 1.5rem;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 1.5rem;
+
+      form input,
+      form textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border: 1px solid #d1d5db;
         border-radius: 12px;
+        font-size: 14px;
       }
-      .contact-form {
-        padding: 2rem;
-        border-radius: 16px;
+
+      form textarea {
+        resize: vertical;
+        min-height: 100px;
       }
-      .contact-form input,
-      .contact-form textarea {
+
+      form button {
         width: 100%;
-        padding: 1rem;
-        margin-bottom: 1rem;
+        padding: 13px;
         border: none;
-        border-radius: 8px;
-      }
-      .contact-form button {
-        width: 100%;
-        padding: 1rem;
+        border-radius: 12px;
         background: #f5b300;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.1rem;
+        color: #222;
+        font-size: 15px;
         font-weight: bold;
         cursor: pointer;
       }
 
-      /* En version safe, on change le formulaire pour mailto */
-      .contact-form button {
-        cursor: pointer;
+      .message-box {
+        margin-top: 12px;
+        font-size: 14px;
+        font-weight: 600;
       }
 
-      /* ===== FOOTER ===== */
-      .footer {
-        background: #0a1625;
-        color: #d1d5db;
-        padding: 3rem 2rem;
-      }
-      .footer-grid {
-        max-width: 1200px;
-        margin: auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 2rem;
-      }
-      .footer h4 {
-        color: #f5b300;
-        margin-bottom: 1rem;
-      }
-
-      /* ===== RESPONSIVE ===== */
-      @media (max-width: 768px) {
-        .nav-menu {
-          display: none;
-        }
-        .hero-layout {
-          grid-template-columns: 1fr;
-          text-align: center;
-        }
-        .hero-text h1 {
-          font-size: 2rem;
-        }
-        .hero-image img {
-          height: auto;
-          margin: auto;
-        }
-        .contact-grid {
-          grid-template-columns: 1fr;
-        }
+      .footer-note {
+        text-align: center;
+        font-size: 12px;
+        color: #6b7280;
+        padding: 8px 18px 18px;
       }
     </style>
   </head>
 
   <body>
-    <!-- NAVBAR -->
-    <nav class="navbar">
-      <div class="nav-container">
-        <div class="logo"><span class="logo-icon">🔥</span> N. Guyomarch</div>
-        <ul class="nav-menu">
-          <li><a href="#accueil">Accueil</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="avis.html">Avis clients</a></li>
-        </ul>
-      </div>
-    </nav>
+    <div class="phone">
+      <div class="statusbar"></div>
 
-    <!-- HERO -->
-    <section id="accueil" class="hero">
-      <div class="hero-layout">
-        <div class="hero-text">
-          <h1>Chauffage & Plomberie</h1>
+      <div class="app-header">
+        <h1>🔥 N. Guyomarch</h1>
+        <p>Chauffage & Plomberie • Évry & Île-de-France</p>
+      </div>
+
+      <div class="nav-tabs">
+        <button class="tab-btn active" onclick="showScreen('accueil', this)">
+          Accueil
+        </button>
+
+        <button class="tab-btn" onclick="showScreen('services', this)">
+          Services
+        </button>
+
+        <button class="tab-btn" onclick="showScreen('tarifs', this)">
+          Tarifs
+        </button>
+
+        <button
+          id="btnContact"
+          class="tab-btn"
+          onclick="showScreen('contact', this)"
+        >
+          Contact
+        </button>
+      </div>
+
+      <!-- ACCUEIL -->
+
+      <section id="accueil" class="screen active">
+        <div class="hero-card">
+          <h2>Chauffage & Plomberie</h2>
+
           <p>
-            Installation • Dépannage • Entretien<br />Évry & Île-de-France –
-            Intervention rapide
+            Installation • Dépannage • Entretien<br />
+            Intervention rapide et devis gratuit.
           </p>
-          <a href="#contact" class="cta-button">Devis gratuit</a>
-        </div>
-        <div class="hero-image">
-          <img
-            src="vitrine.jpg"
-            alt="Vitrine N. Guyomarch Chauffage Plomberie"
-          />
-        </div>
-      </div>
-    </section>
 
-    <!-- SERVICES -->
-    <section id="services" class="section">
-      <h2>Nos Services</h2>
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon">🔥</div>
-          <h3>Chauffage RGE & chaufage GAZ</h3>
-          <p>Chaudières, PAC, radiateurs, planchers chauffants</p>
+          <button class="cta" onclick="goToContact()">Demander un devis</button>
         </div>
-        <div class="service-card">
-          <div class="service-icon">🚿</div>
+
+        <div class="card">
+          <h3>Application mobile du site</h3>
+
+          <p>
+            Cette version mobile reprend le site vitrine existant et prépare son
+            raccordement à Spring Boot et à la base de données MySQL.
+          </p>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+
+      <section id="services" class="screen">
+        <h2 class="section-title">Nos Services</h2>
+
+        <div class="card">
+          <div class="icon">🔥</div>
+          <h3>Chauffage RGE & Gaz</h3>
+          <p>Chaudières, PAC, radiateurs, planchers chauffants.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🚿</div>
           <h3>Plomberie</h3>
-          <p>Sanitaires, fuites, chauffe-eau, canalisations</p>
+          <p>Sanitaires, fuites, chauffe-eau, canalisations.</p>
         </div>
-        <div class="service-card">
-          <div class="service-icon">⚡</div>
-          <h3>Urgence 24/7</h3>
-          <p>Dépannage rapide – intervention sous 2h</p>
-        </div>
-      </div>
-    </section>
 
-    <!-- TARIFS -->
-    <section class="section tarifs">
-      <h2>Nos tarifs indicatifs</h2>
-      <h3 class="subtitle">Devis gratuit – Prix TTC-2025</h3>
-      <div class="trust-grid">
-        <div class="trust-card">
+        <div class="card">
+          <div class="icon">⚡</div>
+          <h3>Urgence 24/7</h3>
+          <p>Dépannage rapide et intervention sous 2h selon disponibilité.</p>
+        </div>
+      </section>
+
+      <!-- TARIFS -->
+
+      <section id="tarifs" class="screen">
+        <h2 class="section-title">Tarifs indicatifs</h2>
+
+        <div class="card">
           <h3>Entretien annuel</h3>
           <p class="price">Dès 149 €</p>
         </div>
-        <div class="trust-card">
-          <h3>Dépannage & débouchage et canalisations</h3>
+
+        <div class="card">
+          <h3>Dépannage & canalisations</h3>
           <p class="price">Dès 125 €</p>
         </div>
-        <div class="trust-card">
+
+        <div class="card">
           <h3>Aides & rénovation</h3>
           <p class="price">Suivant réglementation</p>
         </div>
-        <div class="trust-card">
-          <h3>Débouchage & canalisations</h3>
+
+        <div class="card">
+          <h3>Débouchage</h3>
           <p class="price">Sur devis</p>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- CONTACT -->
+      <!-- CONTACT -->
 
-    <section id="contact" class="section contact">
-      <h2>Contact</h2>
-      <div class="contact-grid">
-        <div class="contact-info">
-          <h3>📞 06 98 17 14 14</h3>
+      <section id="contact" class="screen">
+        <h2 class="section-title">Contact</h2>
+
+        <div class="contact-box">
+          <p><strong>📞 06 98 17 14 14</strong></p>
           <p>Du lundi au samedi – urgences 24h/24</p>
-          <div class="siret-info">
-            <strong>SIRET :</strong> 88921521600025 Galibac<br />
-            Intervention rapide – devis gratuit
-          </div>
+
+          <p style="margin-top: 10px">
+            <strong>SIRET :</strong> 88921521600025 Galibac
+          </p>
         </div>
 
-        <!-- Formulaire safe via mailto -->
-        <form
-          class="contact-form"
-          action="mailto:contact@nguyomarch.fr"
-          method="GET"
-          enctype="text/plain"
-        >
-          <input type="text" name="nom" placeholder="Votre nom" required />
-          <input type="tel" name="tel" placeholder="Téléphone" />
-          <input type="email" name="email" placeholder="Email" />
+        <form id="contactForm">
+          <input type="text" id="nom" placeholder="Votre nom" required />
+
+          <input type="tel" id="tel" placeholder="Téléphone" />
+
+          <input type="email" id="email" placeholder="Email" />
+
           <textarea
-            name="message"
-            rows="5"
+            id="message"
             placeholder="Votre demande"
             required
           ></textarea>
-          <button type="submit">Envoyer par mail</button>
-        </form>
-      </div>
-    </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-      <div class="footer-grid">
-        <div>
-          <h4>N. Guyomarch</h4>
-          <p>
-            Artisan Chauffage & Plomberie<br />Évry –
-            Île-de-France-Corbeil-essonnes
-          </p>
-        </div>
-        <div>
-          <h4>Contact</h4>
-          <p>📞 06 98 17 14 14</p>
-        </div>
-        <div>
-          <h4>Prestations</h4>
-          <p>Installation<br />Dépannage<br />Entretien</p>
-        </div>
-        <div>
-          <h4>Légal</h4>
-          <p>SIRET 88921521600025 <br />© 2026</p>
-        </div>
-      </div>
-    </footer>
+          <button type="submit">Envoyer la demande</button>
+
+          <div id="resultat" class="message-box"></div>
+        </form>
+      </section>
+
+      <div class="footer-note">Maquette mobile connectable à Spring Boot</div>
+    </div>
+
+    <script>
+      function showScreen(screenId, button) {
+        document.querySelectorAll(".screen").forEach((screen) => {
+          screen.classList.remove("active");
+        });
+
+        document.getElementById(screenId).classList.add("active");
+
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+        if (button) button.classList.add("active");
+      }
+
+      function goToContact() {
+        document.querySelectorAll(".screen").forEach((screen) => {
+          screen.classList.remove("active");
+        });
+
+        document.getElementById("contact").classList.add("active");
+
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+        document.querySelectorAll(".tab-btn")[3].classList.add("active");
+      }
+
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const data = {
+            nom: document.getElementById("nom").value,
+            tel: document.getElementById("tel").value,
+            email: document.getElementById("email").value,
+            message: document.getElementById("message").value,
+          };
+
+          const resultat = document.getElementById("resultat");
+
+          resultat.textContent = "Envoi en cours...";
+
+          try {
+            const response = await fetch(
+              "http://localhost:8081/demandes-contact",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+              },
+            );
+
+            if (response.ok) {
+              resultat.textContent = "Demande envoyée avec succès.";
+              this.reset();
+            } else {
+              resultat.textContent = "Erreur lors de l'envoi.";
+            }
+          } catch (error) {
+            resultat.textContent = "Impossible de contacter l'API Spring Boot.";
+          }
+        });
+    </script>
   </body>
 </html>
