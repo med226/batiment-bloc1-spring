@@ -22,6 +22,15 @@ jobs:
         uses: browser-actions/setup-chrome@v1
 
       - name: Lancer les tests Selenium
+        env:
+          CI: true
         run: |
           cd api/selenium-tests
-          mvn -e test
+          mvn -e -DtrimStackTrace=false test
+
+      - name: Publier les rapports de test
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: api/selenium-tests/target/surefire-reports
