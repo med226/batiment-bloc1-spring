@@ -2,7 +2,7 @@ name: Selenium Tests
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -13,28 +13,49 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Set up Java
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
           cache: maven
 
-      - name: Check Chrome on runner
+      - name: Build Spring Boot
         run: |
-          which google-chrome || true
-          /usr/bin/google-chrome --version || true
+          cd api
+          mvn clean package -DskipTests
 
-      - name: Run Selenium tests
-        env:
-          CI: true
+      - name: Start Spring Boot
+        run: |
+          cd api
+          nohup mvn spring-boot:run > spring.log 2>&1 &
+
+      - name: Wait for Spring Boot
+        run: |
+          for i in {1..30}; do
+            curl -I http://localhost:8080/contact && exit 0
+            echo "Waiting for Spring Boot..."
+            sleep 5
+          done
+          echo "Spring Boot failed to start"
+          cat api/spring.log || true
+          exit 1
+
+      - name: Run Selenium Tests
         run: |
           cd api/selenium-tests
-          mvn -e -DtrimStackTrace=false test
+          mvn test
 
-      - name: Upload test reports
+      - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: surefire-reports
           path: api/selenium-tests/target/surefire-reports
+
+      - name: Upload Spring log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spring-log
+          path: api/spring.log

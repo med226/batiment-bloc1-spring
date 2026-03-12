@@ -15,7 +15,6 @@ public class ContactTest {
   @Test
   void testContactForm() {
     ChromeOptions options = new ChromeOptions();
-
     options.addArguments("--headless=new");
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
@@ -28,7 +27,7 @@ public class ContactTest {
 
     driver = new ChromeDriver(options);
 
-    driver.get("http://localhost:8080/index.php");
+    driver.get("http://localhost:8080/contact");
 
     WebElement nom = driver.findElement(By.name("nom"));
     WebElement email = driver.findElement(By.name("email"));
@@ -37,10 +36,11 @@ public class ContactTest {
 
     nom.sendKeys("Test Selenium");
     email.sendKeys("test@mail.com");
-    message.sendKeys("Message automatique Selenium");
+    message.sendKeys("Test automatique");
     bouton.click();
 
     String pageSource = driver.getPageSource().toLowerCase();
+
     assertTrue(
         pageSource.contains("merci")
             || pageSource.contains("message envoyé")
