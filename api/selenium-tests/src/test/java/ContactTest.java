@@ -35,7 +35,7 @@ public class ContactTest {
 
     @Test
     void testContactForm() {
-        driver.get("http://localhost:8081");
+        driver.get("http://localhost:8081/index.html");
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
 
@@ -43,7 +43,6 @@ public class ContactTest {
         System.out.println("Titre page : " + driver.getTitle());
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
-
         js.executeScript("""
                     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                     const contact = document.getElementById('contact');
