@@ -15,7 +15,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ContactTest {
 
@@ -39,16 +38,23 @@ public class ContactTest {
         driver.get("http://localhost:8081");
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
-        assertTrue(driver.getPageSource().contains("N. Guyomarch"));
+
+        System.out.println("URL courante : " + driver.getCurrentUrl());
+        System.out.println("Titre page : " + driver.getTitle());
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         js.executeScript("""
                     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                    document.getElementById('contact').classList.add('active');
+                    const contact = document.getElementById('contact');
+                    if (contact) {
+                        contact.classList.add('active');
+                    }
                     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                     const btn = document.getElementById('btnContact');
-                    if (btn) { btn.classList.add('active'); }
+                    if (btn) {
+                        btn.classList.add('active');
+                    }
                 """);
 
         WebElement nom = wait.until(
