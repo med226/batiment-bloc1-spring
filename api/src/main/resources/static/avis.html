@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Avis clients – N. Guyomarch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: "Segoe UI", Arial;
+        background: #f5f7fa;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: #33290d;
+        padding: 1rem 2rem;
+        z-index: 1000;
+      }
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .logo {
+        color: #f5b300;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+      .nav-menu a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .nav-menu a:hover {
+        color: #f5b300;
+      }
+      .section {
+        max-width: 1200px;
+        margin: 120px auto 5rem auto;
+        padding: 2rem;
+      }
+      h2 {
+        text-align: center;
+        font-size: 2.4rem;
+        margin-bottom: 3rem;
+        color: #0d2033;
+        position: relative;
+      }
+      h2::after {
+        content: "";
+        width: 80px;
+        height: 4px;
+        background: #f5b300;
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .avis-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+      .avis-card {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        text-align: center;
+      }
+      .avis-card h3 {
+        margin-bottom: 0.5rem;
+        color: #0d2033;
+      }
+      .avis-card p {
+        font-style: italic;
+        margin-bottom: 1rem;
+      }
+      .avis-card span {
+        color: #f5b300;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo"><span class="logo-icon">🔥</span> N. Guyomarch</div>
+        <ul class="nav-menu">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="avis.html">Avis clients</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section class="section">
+      <h2>Avis clients</h2>
+      <div class="avis-grid">
+        <div class="avis-card">
+          <h3>Marie D.</h3>
+          <p>« Très professionnelle, intervention rapide et efficace ! »</p>
+          <span>⭐⭐⭐⭐⭐</span>
+        </div>
+        <div class="avis-card">
+          <h3>Jean P.</h3>
+          <p>
+            « Je recommande vivement pour le dépannage et l'installation de
+            chaudière. »
+          </p>
+          <span>⭐⭐⭐⭐⭐</span>
+        </div>
+        <div class="avis-card">
+          <h3>Lucie R.</h3>
+          <p>« Prix correct et service très réactif. Merci ! »</p>
+          <span>⭐⭐⭐⭐</span>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
