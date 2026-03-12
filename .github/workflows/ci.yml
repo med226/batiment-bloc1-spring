@@ -34,10 +34,13 @@ jobs:
           java-version: "17"
           cache: maven
 
+      - name: Install Google Chrome
+        uses: browser-actions/setup-chrome@v1
+
       - name: Install MariaDB client
         run: |
           sudo apt-get update
-          sudo apt-get install -y mariadb-client
+          sudo apt-get install -y mariadb-client curl
 
       - name: Wait for MariaDB
         run: |
@@ -53,14 +56,14 @@ jobs:
           exit 1
 
       - name: Build Spring Boot
-        run: |
-          cd api
-          mvn clean package -DskipTests
+        working-directory: api
+        run: mvn clean package -DskipTests
 
       - name: Start Spring Boot
+        working-directory: api
         run: |
-          cd api
-          nohup mvn spring-boot:run > spring.log 2>&1 &
+          nohup java -jar target/*.jar > spring.log 2>&1 &
+          sleep 5
 
       - name: Wait for Spring Boot
         run: |
@@ -78,9 +81,8 @@ jobs:
           exit 1
 
       - name: Run Selenium Tests
-        run: |
-          cd api/selenium-tests
-          mvn test
+        working-directory: api/selenium-tests
+        run: mvn test
 
       - name: Upload reports
         if: always()

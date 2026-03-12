@@ -27,6 +27,7 @@ public class ContactTest {
     options.addArguments("--headless=new");
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
+    options.addArguments("--window-size=1920,1080");
 
     driver = new ChromeDriver(options);
 
@@ -36,16 +37,14 @@ public class ContactTest {
   @Test
   void testContactForm() {
 
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8081");
 
     // Aller à l'écran contact
     WebElement tabContact = wait.until(
-        ExpectedConditions.elementToBeClickable(
-            By.xpath("//button[contains(text(),'Contact')]")));
-
+        ExpectedConditions.elementToBeClickable(By.id("btnContact")));
     tabContact.click();
 
-    // attendre champ nom
+    // Attendre les champs du formulaire
     WebElement nom = wait.until(
         ExpectedConditions.visibilityOfElementLocated(By.id("nom")));
 
@@ -58,8 +57,8 @@ public class ContactTest {
     email.sendKeys("test@test.com");
     message.sendKeys("Test Selenium formulaire contact");
 
-    WebElement bouton = driver.findElement(By.cssSelector("button[type='submit']"));
-
+    WebElement bouton = wait.until(
+        ExpectedConditions.elementToBeClickable(By.cssSelector("button[type='submit']")));
     bouton.click();
 
     WebElement resultat = wait.until(
