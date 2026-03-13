@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Administration - N. Guyomarch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        color: #1e293b;
+      }
+
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* SIDEBAR */
+
+      .sidebar {
+        width: 250px;
+        background: linear-gradient(180deg, #1e3a8a, #1d4ed8);
+        color: white;
+        padding: 30px 20px;
+      }
+
+      .sidebar h2 {
+        margin-top: 0;
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      .sidebar p {
+        font-size: 14px;
+        color: #dbeafe;
+        margin-bottom: 25px;
+        line-height: 1.5;
+      }
+
+      .nav a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 12px 14px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: background 0.2s ease;
+      }
+
+      .nav a:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      /* CONTENU */
+
+      .content {
+        flex: 1;
+        padding: 35px;
+      }
+
+      .hero {
+        background: white;
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+        margin-bottom: 25px;
+      }
+
+      .hero h1 {
+        margin: 0 0 10px 0;
+        color: #1e3a8a;
+        font-size: 34px;
+      }
+
+      .hero p {
+        margin: 0;
+        color: #475569;
+        line-height: 1.6;
+      }
+
+      /* STATS */
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 18px;
+        margin-bottom: 25px;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 16px;
+        padding: 22px;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+      }
+
+      .stat-card h3 {
+        margin: 0 0 8px 0;
+        color: #1e3a8a;
+        font-size: 17px;
+      }
+
+      .stat-card .number {
+        font-size: 30px;
+        font-weight: bold;
+        color: #0f172a;
+      }
+
+      /* CARDS */
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+      }
+
+      .card h3 {
+        margin-top: 0;
+        color: #1e3a8a;
+      }
+
+      .card p {
+        color: #475569;
+        min-height: 60px;
+        line-height: 1.5;
+      }
+
+      .card a {
+        display: inline-block;
+        text-decoration: none;
+        background: #1e3a8a;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+
+      .card a:hover {
+        background: #162f6a;
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        .hero h1 {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="layout">
+      <!-- MENU GAUCHE -->
+
+      <aside class="sidebar">
+        <h2>Admin</h2>
+
+        <p>
+          Espace de gestion de l’entreprise N. Guyomarch.<br />
+          Chauffage, plomberie et suivi administratif.
+        </p>
+
+        <nav class="nav">
+          <a th:href="@{/admin/dashboard}">Dashboard</a>
+
+          <a th:href="@{/admin/clients}">Clients</a>
+
+          <a th:href="@{/admin/chantiers}">Chantiers</a>
+
+          <a th:href="@{/admin/contrats}">Contrats</a>
+
+          <a th:href="@{/admin/interventions}">Interventions</a>
+
+          <a th:href="@{/logout}">Déconnexion</a>
+        </nav>
+      </aside>
+
+      <!-- CONTENU -->
+
+      <main class="content">
+        <section class="hero">
+          <h1>Tableau de bord administrateur</h1>
+
+          <p>
+            Bienvenue dans l’interface d’administration. Vous pouvez gérer les
+            clients, les chantiers, les interventions et générer des contrats
+            depuis cette application métier.
+          </p>
+        </section>
+
+        <!-- STATISTIQUES -->
+
+        <section class="stats">
+          <div class="stat-card">
+            <h3>Clients</h3>
+            <div class="number">Gestion</div>
+          </div>
+
+          <div class="stat-card">
+            <h3>Chantiers</h3>
+            <div class="number">Suivi</div>
+          </div>
+
+          <div class="stat-card">
+            <h3>Contrats</h3>
+            <div class="number">Création</div>
+          </div>
+
+          <div class="stat-card">
+            <h3>Interventions</h3>
+            <div class="number">Suivi</div>
+          </div>
+        </section>
+
+        <!-- CARTES -->
+
+        <section class="cards">
+          <div class="card">
+            <h3>Clients</h3>
+
+            <p>
+              Ajouter, modifier et consulter les clients enregistrés dans
+              l’application.
+            </p>
+
+            <a th:href="@{/admin/clients}">Ouvrir</a>
+          </div>
+
+          <div class="card">
+            <h3>Chantiers</h3>
+
+            <p>
+              Créer et suivre les chantiers avec leurs informations principales.
+            </p>
+
+            <a th:href="@{/admin/chantiers}">Ouvrir</a>
+          </div>
+
+          <div class="card">
+            <h3>Contrats</h3>
+
+            <p>
+              Créer un contrat avec libellé, montant, mention “Lu et approuvé”
+              et impression PDF.
+            </p>
+
+            <a th:href="@{/admin/contrats}">Ouvrir</a>
+          </div>
+
+          <div class="card">
+            <h3>Interventions</h3>
+
+            <p>
+              Créer, consulter et suivre les interventions techniques réalisées
+              sur les chantiers.
+            </p>
+
+            <a th:href="@{/admin/interventions}">Ouvrir</a>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

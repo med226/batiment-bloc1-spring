@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gestion des interventions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        color: #1e293b;
+      }
+
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 250px;
+        background: linear-gradient(180deg, #1e3a8a, #1d4ed8);
+        color: white;
+        padding: 30px 20px;
+      }
+
+      .sidebar h2 {
+        margin-top: 0;
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      .sidebar p {
+        font-size: 14px;
+        color: #dbeafe;
+        margin-bottom: 25px;
+        line-height: 1.5;
+      }
+
+      .nav a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 12px 14px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: background 0.2s ease;
+      }
+
+      .nav a:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .content {
+        flex: 1;
+        padding: 35px;
+      }
+
+      .hero {
+        background: white;
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+        margin-bottom: 25px;
+      }
+
+      .hero h1 {
+        margin: 0 0 10px 0;
+        color: #1e3a8a;
+        font-size: 34px;
+      }
+
+      .hero p {
+        margin: 0;
+        color: #475569;
+        line-height: 1.6;
+      }
+
+      .card {
+        background: white;
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+        margin-bottom: 25px;
+      }
+
+      .card h2 {
+        margin-top: 0;
+        color: #1e3a8a;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group label {
+        margin-bottom: 6px;
+        font-weight: bold;
+        color: #334155;
+        font-size: 14px;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .full-width {
+        grid-column: 1 / -1;
+      }
+
+      .form-actions {
+        margin-top: 20px;
+      }
+
+      .btn {
+        display: inline-block;
+        text-decoration: none;
+        background: #1e3a8a;
+        color: white;
+        padding: 12px 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .btn:hover {
+        background: #162f6a;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      thead {
+        background: #eff6ff;
+      }
+
+      th,
+      td {
+        padding: 14px;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+        vertical-align: top;
+      }
+
+      th {
+        color: #1e3a8a;
+        font-size: 14px;
+      }
+
+      .empty {
+        text-align: center;
+        color: #64748b;
+        padding: 20px;
+      }
+
+      .delete-btn {
+        text-decoration: none;
+        background: #fee2e2;
+        color: #b91c1c;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: bold;
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Admin</h2>
+        <p>
+          Espace de gestion de l’entreprise N. Guyomarch.<br />
+          Chauffage, plomberie et suivi administratif.
+        </p>
+
+        <nav class="nav">
+          <a th:href="@{/admin/dashboard}">Dashboard</a>
+          <a th:href="@{/admin/clients}">Clients</a>
+          <a th:href="@{/admin/chantiers}">Chantiers</a>
+          <a th:href="@{/admin/contrats}">Contrats</a>
+          <a th:href="@{/admin/interventions}">Interventions</a>
+          <a th:href="@{/logout}">Déconnexion</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <section class="hero">
+          <h1>Gestion des interventions</h1>
+          <p>Ajoutez et suivez les interventions techniques de l’entreprise.</p>
+        </section>
+
+        <section class="card">
+          <h2>Ajouter une intervention</h2>
+
+          <form th:action="@{/admin/interventions/save}" method="post">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="typeIntervention">Type d’intervention</label>
+                <input
+                  id="typeIntervention"
+                  name="typeIntervention"
+                  type="text"
+                  placeholder="Ex : Dépannage"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="categorie">Catégorie</label>
+                <input
+                  id="categorie"
+                  name="categorie"
+                  type="text"
+                  placeholder="Ex : Plomberie"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="urgence">Urgence</label>
+                <select id="urgence" name="urgence" required>
+                  <option value="">Choisir</option>
+                  <option value="Faible">Faible</option>
+                  <option value="Moyenne">Moyenne</option>
+                  <option value="Élevée">Élevée</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="statut">Statut</label>
+                <select id="statut" name="statut" required>
+                  <option value="">Choisir</option>
+                  <option value="En attente">En attente</option>
+                  <option value="En cours">En cours</option>
+                  <option value="Terminée">Terminée</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="dateIntervention">Date et heure</label>
+                <input
+                  id="dateIntervention"
+                  name="dateIntervention"
+                  type="datetime-local"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="montant">Montant</label>
+                <input
+                  id="montant"
+                  name="montant"
+                  type="number"
+                  step="0.01"
+                  placeholder="Ex : 150.00"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="clientId">Client</label>
+                <select id="clientId" name="clientId" required>
+                  <option value="">Choisir un client</option>
+                  <option
+                    th:each="c : ${clients}"
+                    th:value="${c.id}"
+                    th:text="${c.nom + ' ' + c.prenom}"
+                  ></option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="technicienId">Technicien</label>
+                <select id="technicienId" name="technicienId">
+                  <option value="">Choisir un technicien</option>
+                  <option
+                    th:each="t : ${techniciens}"
+                    th:value="${t.id}"
+                    th:text="${t.nom}"
+                  ></option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="chantierId">Chantier</label>
+                <select id="chantierId" name="chantierId">
+                  <option value="">Choisir un chantier</option>
+                  <option
+                    th:each="ch : ${chantiers}"
+                    th:value="${ch.id}"
+                    th:text="${ch.libelle}"
+                  ></option>
+                </select>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="description">Description</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  placeholder="Décrivez l’intervention"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn">Ajouter</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Liste des interventions</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Catégorie</th>
+                <th>Urgence</th>
+                <th>Statut</th>
+                <th>Date</th>
+                <th>Montant</th>
+                <th>Client</th>
+                <th>Technicien</th>
+                <th>Chantier</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:if="${#lists.isEmpty(interventions)}">
+                <td colspan="11" class="empty">
+                  Aucune intervention disponible pour le moment.
+                </td>
+              </tr>
+
+              <tr th:each="i : ${interventions}">
+                <td th:text="${i.id}"></td>
+                <td th:text="${i.typeIntervention}"></td>
+                <td th:text="${i.categorie}"></td>
+                <td th:text="${i.urgence}"></td>
+                <td th:text="${i.statut}"></td>
+                <td th:text="${i.dateIntervention}"></td>
+                <td th:text="${i.montant}"></td>
+                <td
+                  th:text="${i.client != null ? i.client.nom + ' ' + i.client.prenom : ''}"
+                ></td>
+                <td
+                  th:text="${i.technicien != null ? i.technicien.nom : ''}"
+                ></td>
+                <td
+                  th:text="${i.chantier != null ? i.chantier.libelle : ''}"
+                ></td>
+                <td>
+                  <a
+                    class="delete-btn"
+                    th:href="@{'/admin/interventions/delete/' + ${i.id}}"
+                    onclick="
+                      return confirm(
+                        'Voulez-vous vraiment supprimer cette intervention ?',
+                      );
+                    "
+                  >
+                    Supprimer
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

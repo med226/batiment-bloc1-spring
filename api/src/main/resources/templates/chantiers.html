@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gestion des chantiers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        color: #1e293b;
+      }
+
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 250px;
+        background: linear-gradient(180deg, #1e3a8a, #1d4ed8);
+        color: white;
+        padding: 30px 20px;
+      }
+
+      .sidebar h2 {
+        margin-top: 0;
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      .sidebar p {
+        font-size: 14px;
+        color: #dbeafe;
+        margin-bottom: 25px;
+        line-height: 1.5;
+      }
+
+      .nav a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 12px 14px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: background 0.2s ease;
+      }
+
+      .nav a:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .content {
+        flex: 1;
+        padding: 35px;
+      }
+
+      .hero {
+        background: white;
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+        margin-bottom: 25px;
+      }
+
+      .hero h1 {
+        margin: 0 0 10px 0;
+        color: #1e3a8a;
+        font-size: 34px;
+      }
+
+      .hero p {
+        margin: 0;
+        color: #475569;
+        line-height: 1.6;
+      }
+
+      .card {
+        background: white;
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+        margin-bottom: 25px;
+      }
+
+      .card h2 {
+        margin-top: 0;
+        color: #1e3a8a;
+        font-size: 24px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group label {
+        margin-bottom: 6px;
+        font-weight: bold;
+        color: #334155;
+        font-size: 14px;
+      }
+
+      .form-group input {
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .form-group input:focus {
+        border-color: #1d4ed8;
+        box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+      }
+
+      .form-actions {
+        margin-top: 20px;
+      }
+
+      .btn {
+        display: inline-block;
+        text-decoration: none;
+        background: #1e3a8a;
+        color: white;
+        padding: 12px 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .btn:hover {
+        background: #162f6a;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      thead {
+        background: #eff6ff;
+      }
+
+      th,
+      td {
+        padding: 14px;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+        vertical-align: middle;
+      }
+
+      th {
+        color: #1e3a8a;
+        font-size: 14px;
+      }
+
+      td {
+        font-size: 14px;
+        color: #334155;
+      }
+
+      .actions a {
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: bold;
+        margin-right: 8px;
+      }
+
+      .edit-btn {
+        background: #dbeafe;
+        color: #1e3a8a;
+      }
+
+      .delete-btn {
+        background: #fee2e2;
+        color: #b91c1c;
+      }
+
+      .empty {
+        text-align: center;
+        color: #64748b;
+        padding: 20px;
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        .hero h1 {
+          font-size: 28px;
+        }
+
+        table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Admin</h2>
+        <p>
+          Espace de gestion de l’entreprise N. Guyomarch.<br />
+          Chauffage, plomberie et suivi administratif.
+        </p>
+
+        <nav class="nav">
+          <a th:href="@{/admin/dashboard}">Dashboard</a>
+          <a th:href="@{/admin/clients}">Clients</a>
+          <a th:href="@{/admin/chantiers}">Chantiers</a>
+          <a th:href="@{/admin/contrats}">Contrats</a>
+          <a th:href="@{/admin/interventions}">Interventions</a>
+          <a th:href="@{/logout}">Déconnexion</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <section class="hero">
+          <h1>Gestion des chantiers</h1>
+          <p>
+            Créez, consultez, modifiez et suivez les chantiers avec leurs
+            informations principales.
+          </p>
+        </section>
+
+        <section class="card">
+          <h2>Ajouter un chantier</h2>
+
+          <form
+            th:action="@{/admin/chantiers/save}"
+            th:object="${chantier}"
+            method="post"
+          >
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="libelle">Libellé</label>
+                <input
+                  id="libelle"
+                  type="text"
+                  th:field="*{libelle}"
+                  placeholder="Libellé"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="ville">Ville</label>
+                <input
+                  id="ville"
+                  type="text"
+                  th:field="*{ville}"
+                  placeholder="Ville"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="adresse">Adresse</label>
+                <input
+                  id="adresse"
+                  type="text"
+                  th:field="*{adresse}"
+                  placeholder="Adresse"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="codePostal">Code postal</label>
+                <input
+                  id="codePostal"
+                  type="text"
+                  th:field="*{codePostal}"
+                  placeholder="Code postal"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn">Ajouter</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Liste des chantiers</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Libellé</th>
+                <th>Ville</th>
+                <th>Adresse</th>
+                <th>Code postal</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr th:if="${#lists.isEmpty(chantiers)}">
+                <td colspan="6" class="empty">
+                  Aucun chantier enregistré pour le moment.
+                </td>
+              </tr>
+
+              <tr th:each="ch : ${chantiers}">
+                <td th:text="${ch.id}"></td>
+                <td th:text="${ch.libelle}"></td>
+                <td th:text="${ch.ville}"></td>
+                <td th:text="${ch.adresse}"></td>
+                <td th:text="${ch.codePostal}"></td>
+                <td class="actions">
+                  <a
+                    class="edit-btn"
+                    th:href="@{'/admin/chantiers/edit/' + ${ch.id}}"
+                    >Modifier</a
+                  >
+                  <a
+                    class="delete-btn"
+                    th:href="@{'/admin/chantiers/delete/' + ${ch.id}}"
+                    onclick="
+                      return confirm(
+                        'Voulez-vous vraiment supprimer ce chantier ?',
+                      );
+                    "
+                  >
+                    Supprimer
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Contrat client</title>
+  </head>
+  <body>
+    <div style="max-width: 700px; margin: auto; font-family: Arial">
+      <h2 style="text-align: center">Contrat de prestation</h2>
+
+      <p>
+        Entre l’entreprise <b>N. Guyomarch</b>, spécialisée en chauffage et
+        plomberie, et le client
+        <b th:text="${client.nom + ' ' + client.prenom}"></b>.
+      </p>
+
+      <p><b>Objet du contrat :</b> <span th:text="${libelle}"></span></p>
+
+      <p>
+        Le présent contrat définit les conditions d’intervention, d’exécution et
+        de suivi de la prestation demandée par le client.
+      </p>
+
+      <p>
+        <b>Montant de la prestation :</b>
+        <span th:text="${montant}"></span> €
+      </p>
+
+      <p><b>Mention obligatoire :</b> Lu et approuvé.</p>
+
+      <br /><br />
+
+      <div style="display: flex; justify-content: space-between">
+        <div>
+          <b>Signature du client</b>
+          <br /><br />
+          Lu et approuvé
+          <br /><br />
+          ____________________
+          <br />
+          <span th:text="${client.nom + ' ' + client.prenom}"></span>
+        </div>
+
+        <div>
+          <b>Signature de l’entreprise</b>
+          <br /><br />
+          N. Guyomarch
+          <br /><br />
+          ____________________
+          <br />
+          N. Guyomarch
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div style="text-align: center">
+      <a th:href="@{/admin/contrats}">Nouveau contrat</a>
+      <button onclick="window.print()">Imprimer / PDF</button>
+    </div>
+  </body>
+</html>

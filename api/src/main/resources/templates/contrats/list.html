@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Liste des contrats</title>
+  </head>
+  <body>
+    <h1>Liste des contrats</h1>
+
+    <a th:href="@{/admin/contrats}">Nouveau contrat</a>
+    <a th:href="@{/admin/dashboard}">Retour dashboard</a>
+
+    <table border="1">
+      <tr>
+        <th>Contrats</th>
+      </tr>
+      <tr th:each="contrat : ${contrats}">
+        <td th:text="${contrat}"></td>
+      </tr>
+    </table>
+  </body>
+</html>

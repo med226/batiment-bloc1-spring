@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Créer un contrat</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+        margin: 0;
+        padding: 30px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+      }
+
+      h1 {
+        color: #1f3c88;
+        margin-top: 0;
+      }
+
+      form {
+        display: grid;
+        gap: 15px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      input,
+      select {
+        padding: 12px;
+        border: 1px solid #cfd8ea;
+        border-radius: 8px;
+      }
+
+      button,
+      a {
+        padding: 12px 14px;
+        border-radius: 8px;
+        border: none;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      button {
+        background: #1f3c88;
+        color: white;
+        cursor: pointer;
+      }
+
+      .retour {
+        background: #64748b;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Créer un contrat</h1>
+
+      <form th:action="@{/admin/contrats/generer}" method="post">
+        <label for="clientId">Client</label>
+        <select id="clientId" name="clientId" required>
+          <option value="">Choisir un client</option>
+          <option
+            th:each="client : ${clients}"
+            th:value="${client.id}"
+            th:text="${client.nom + ' ' + client.prenom}"
+          ></option>
+        </select>
+
+        <label for="libelle">Libellé / nature du contrat</label>
+        <input
+          id="libelle"
+          type="text"
+          name="libelle"
+          placeholder="Ex : Contrat d'entretien annuel"
+          required
+        />
+
+        <label for="montant">Montant</label>
+        <input
+          id="montant"
+          type="text"
+          name="montant"
+          placeholder="Ex : 250"
+          required
+        />
+
+        <button type="submit">Générer le contrat</button>
+        <a class="retour" th:href="@{/admin/dashboard}">Retour</a>
+      </form>
+    </div>
+  </body>
+</html>

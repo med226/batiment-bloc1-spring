@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gestion des interventions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        color: #1e293b;
+      }
+
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 250px;
+        background: linear-gradient(180deg, #1e3a8a, #1d4ed8);
+        color: white;
+        padding: 30px 20px;
+      }
+
+      .sidebar h2 {
+        margin-top: 0;
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      .sidebar p {
+        font-size: 14px;
+        color: #dbeafe;
+        margin-bottom: 25px;
+        line-height: 1.5;
+      }
+
+      .nav a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 12px 14px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: background 0.2s ease;
+      }
+
+      .nav a:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .content {
+        flex: 1;
+        padding: 35px;
+      }
+
+      .hero {
+        background: white;
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+        margin-bottom: 25px;
+      }
+
+      .hero h1 {
+        margin: 0 0 10px 0;
+        color: #1e3a8a;
+        font-size: 34px;
+      }
+
+      .hero p {
+        margin: 0;
+        color: #475569;
+        line-height: 1.6;
+      }
+
+      .card {
+        background: white;
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+      }
+
+      .btn {
+        display: inline-block;
+        text-decoration: none;
+        background: #1e3a8a;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+
+      .btn:hover {
+        background: #162f6a;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+      }
+
+      th,
+      td {
+        padding: 14px;
+        border-bottom: 1px solid #e2e8f0;
+        text-align: left;
+      }
+
+      th {
+        background: #eff6ff;
+        color: #1e3a8a;
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Admin</h2>
+        <p>
+          Espace de gestion de l’entreprise N. Guyomarch.<br />
+          Chauffage, plomberie et suivi administratif.
+        </p>
+
+        <nav class="nav">
+          <a th:href="@{/admin/dashboard}">Dashboard</a>
+          <a th:href="@{/admin/clients}">Clients</a>
+          <a th:href="@{/admin/chantiers}">Chantiers</a>
+          <a th:href="@{/admin/contrats}">Contrats</a>
+          <a th:href="@{/admin/interventions}">Interventions</a>
+          <a th:href="@{/logout}">Déconnexion</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <section class="hero">
+          <h1>Gestion des interventions</h1>
+          <p>
+            Consultez et suivez les interventions techniques réalisées sur les
+            chantiers.
+          </p>
+        </section>
+
+        <div class="card">
+          <a class="btn" th:href="@{/admin/dashboard}">Retour au dashboard</a>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Catégorie</th>
+                <th>Date</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:if="${#lists.isEmpty(interventions)}">
+                <td colspan="5">
+                  Aucune intervention disponible pour le moment.
+                </td>
+              </tr>
+
+              <tr th:each="intervention : ${interventions}">
+                <td th:text="${intervention.id}"></td>
+                <td th:text="${intervention.typeIntervention}"></td>
+                <td th:text="${intervention.categorie}"></td>
+                <td th:text="${intervention.dateIntervention}"></td>
+                <td th:text="${intervention.statut}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
