@@ -1,39 +1,39 @@
 package com.example.batiment.controller;
 
-import com.example.batiment.model.Chantier;
-import com.example.batiment.service.ChantierService;
+import com.example.batiment.model.Client;
+import com.example.batiment.service.ClientService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/chantiers")
-public class ChantierController {
+@RequestMapping("/api/clients")
+public class ClientController {
 
-    private final ChantierService chantierService;
+    private final ClientService clientService;
 
-    public ChantierController(ChantierService chantierService) {
-        this.chantierService = chantierService;
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     @GetMapping
-    public List<Chantier> getAllChantiers() {
-        return chantierService.getAllChantiers();
+    public List<Client> getAllClients() {
+        return clientService.getAllClients();
     }
 
     @GetMapping("/{id}")
-    public Optional<Chantier> getChantierById(@PathVariable Long id) {
-        return chantierService.getChantierById(id);
+    public Optional<Client> getClientById(@PathVariable Long id) {
+        return clientService.getClientById(id);
     }
 
     @PostMapping
-    public Chantier createChantier(@RequestBody Chantier chantier) {
-        return chantierService.saveChantier(chantier);
+    public Client createClient(@RequestBody Client client) {
+        return clientService.saveClient(client);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteChantier(@PathVariable Long id) {
-        chantierService.deleteChantier(id);
+    public void deleteClient(@PathVariable Long id) {
+        clientService.deleteClient(id);
     }
 }

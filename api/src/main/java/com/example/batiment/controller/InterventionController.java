@@ -41,7 +41,7 @@ public class InterventionController {
         model.addAttribute("clients", clientRepository.findAll());
         model.addAttribute("techniciens", technicienRepository.findAll());
         model.addAttribute("chantiers", chantierRepository.findAll());
-        return "interventions";
+        return "admin/interventions";
     }
 
     @PostMapping("/save")
