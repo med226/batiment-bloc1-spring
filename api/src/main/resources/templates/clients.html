@@ -2,390 +2,85 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <title>Gestion des clients</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <title>Clients</title>
     <style>
-      * {
-        box-sizing: border-box;
-      }
-
       body {
-        margin: 0;
         font-family: Arial, sans-serif;
-        background: #f4f7fb;
-        color: #1e293b;
-      }
-
-      .layout {
-        display: flex;
-        min-height: 100vh;
-      }
-
-      .sidebar {
-        width: 250px;
-        background: linear-gradient(180deg, #1e3a8a, #1d4ed8);
-        color: white;
-        padding: 30px 20px;
-      }
-
-      .sidebar h2 {
-        margin-top: 0;
-        font-size: 28px;
-        margin-bottom: 10px;
-      }
-
-      .sidebar p {
-        font-size: 14px;
-        color: #dbeafe;
-        margin-bottom: 25px;
-        line-height: 1.5;
-      }
-
-      .nav a {
-        display: block;
-        color: white;
-        text-decoration: none;
-        padding: 12px 14px;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        transition: background 0.2s ease;
-      }
-
-      .nav a:hover {
-        background: rgba(255, 255, 255, 0.15);
-      }
-
-      .content {
-        flex: 1;
-        padding: 35px;
-      }
-
-      .hero {
-        background: white;
-        border-radius: 18px;
-        padding: 28px;
-        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
-        margin-bottom: 25px;
-      }
-
-      .hero h1 {
-        margin: 0 0 10px 0;
-        color: #1e3a8a;
-        font-size: 34px;
-      }
-
-      .hero p {
+        background: #f4f6f8;
         margin: 0;
-        color: #475569;
-        line-height: 1.6;
+        padding: 40px;
+      }
+
+      h1 {
+        color: #1f2937;
       }
 
       .card {
         background: white;
-        border-radius: 18px;
         padding: 24px;
-        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
-        margin-bottom: 25px;
-      }
-
-      .card h2 {
-        margin-top: 0;
-        color: #1e3a8a;
-        font-size: 24px;
-      }
-
-      .form-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 15px;
-      }
-
-      .form-group {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .form-group label {
-        margin-bottom: 6px;
-        font-weight: bold;
-        color: #334155;
-        font-size: 14px;
-      }
-
-      .form-group input {
-        padding: 12px;
-        border: 1px solid #cbd5e1;
         border-radius: 10px;
-        font-size: 14px;
-        outline: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        max-width: 700px;
       }
 
-      .form-group input:focus {
-        border-color: #1d4ed8;
-        box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
-      }
-
-      .form-actions {
-        margin-top: 20px;
-      }
-
-      .btn {
-        display: inline-block;
-        text-decoration: none;
-        background: #1e3a8a;
+      button {
+        background: #2563eb;
         color: white;
-        padding: 12px 18px;
         border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
-      }
-
-      .btn:hover {
-        background: #162f6a;
-      }
-
-      .btn-secondary {
-        background: #475569;
-      }
-
-      .btn-secondary:hover {
-        background: #334155;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-      }
-
-      thead {
-        background: #eff6ff;
-      }
-
-      th,
-      td {
-        padding: 14px;
-        text-align: left;
-        border-bottom: 1px solid #e2e8f0;
-        vertical-align: middle;
-      }
-
-      th {
-        color: #1e3a8a;
-        font-size: 14px;
-      }
-
-      td {
-        font-size: 14px;
-        color: #334155;
-      }
-
-      .actions a {
-        text-decoration: none;
-        padding: 8px 12px;
+        padding: 12px 18px;
         border-radius: 8px;
-        font-size: 13px;
-        font-weight: bold;
-        margin-right: 8px;
+        cursor: pointer;
+        font-size: 15px;
       }
 
-      .edit-btn {
-        background: #dbeafe;
-        color: #1e3a8a;
+      button:hover {
+        background: #1d4ed8;
       }
 
-      .delete-btn {
-        background: #fee2e2;
-        color: #b91c1c;
+      #resultat {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        background: #f9fafb;
+        min-height: 30px;
       }
 
-      .empty {
-        text-align: center;
-        color: #64748b;
-        padding: 20px;
-      }
-
-      @media (max-width: 900px) {
-        .layout {
-          flex-direction: column;
-        }
-
-        .sidebar {
-          width: 100%;
-        }
-
-        .content {
-          padding: 20px;
-        }
-
-        .hero h1 {
-          font-size: 28px;
-        }
-
-        table {
-          display: block;
-          overflow-x: auto;
-          white-space: nowrap;
-        }
+      a {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        color: #2563eb;
       }
     </style>
   </head>
-
   <body>
-    <div class="layout">
-      <aside class="sidebar">
-        <h2>Admin</h2>
-        <p>
-          Espace de gestion de l’entreprise N. Guyomarch.<br />
-          Chauffage, plomberie et suivi administratif.
-        </p>
+    <div class="card">
+      <h1>Interface Clients</h1>
 
-        <nav class="nav">
-          <a th:href="@{/admin/dashboard}">Dashboard</a>
-          <a th:href="@{/admin/clients}">Clients</a>
-          <a th:href="@{/admin/chantiers}">Chantiers</a>
-          <a th:href="@{/admin/contrats}">Contrats</a>
-          <a th:href="@{/admin/interventions}">Interventions</a>
-          <a th:href="@{/logout}">Déconnexion</a>
-        </nav>
-      </aside>
+      <p>
+        Cette page teste la connexion entre l’interface et l’API Spring Boot.
+      </p>
 
-      <main class="content">
-        <section class="hero">
-          <h1>Gestion des clients</h1>
-          <p>
-            Ajoutez, consultez, modifiez et supprimez les clients enregistrés
-            dans l’application.
-          </p>
-        </section>
+      <button onclick="chargerClients()">Tester l'API Clients</button>
 
-        <section class="card">
-          <h2>Ajouter un client</h2>
+      <div id="resultat">Aucun résultat pour le moment.</div>
 
-          <form
-            th:action="@{/admin/clients/save}"
-            th:object="${client}"
-            method="post"
-          >
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="nom">Nom</label>
-                <input
-                  id="nom"
-                  type="text"
-                  th:field="*{nom}"
-                  placeholder="Nom"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="prenom">Prénom</label>
-                <input
-                  id="prenom"
-                  type="text"
-                  th:field="*{prenom}"
-                  placeholder="Prénom"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="telephone">Téléphone</label>
-                <input
-                  id="telephone"
-                  type="text"
-                  th:field="*{telephone}"
-                  placeholder="Téléphone"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input
-                  id="email"
-                  type="email"
-                  th:field="*{email}"
-                  placeholder="Email"
-                  required
-                />
-              </div>
-
-              <div class="form-group" style="grid-column: 1 / -1">
-                <label for="adresse">Adresse</label>
-                <input
-                  id="adresse"
-                  type="text"
-                  th:field="*{adresse}"
-                  placeholder="Adresse"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="form-actions">
-              <button type="submit" class="btn">Ajouter</button>
-            </div>
-          </form>
-        </section>
-
-        <section class="card">
-          <h2>Liste des clients</h2>
-
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Téléphone</th>
-                <th>Email</th>
-                <th>Adresse</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr th:if="${#lists.isEmpty(clients)}">
-                <td colspan="7" class="empty">
-                  Aucun client enregistré pour le moment.
-                </td>
-              </tr>
-
-              <tr th:each="c : ${clients}">
-                <td th:text="${c.id}"></td>
-                <td th:text="${c.nom}"></td>
-                <td th:text="${c.prenom}"></td>
-                <td th:text="${c.telephone}"></td>
-                <td th:text="${c.email}"></td>
-                <td th:text="${c.adresse}"></td>
-                <td class="actions">
-                  <a
-                    class="edit-btn"
-                    th:href="@{'/admin/clients/edit/' + ${c.id}}"
-                    >Modifier</a
-                  >
-                  <a
-                    class="delete-btn"
-                    th:href="@{'/admin/clients/delete/' + ${c.id}}"
-                    onclick="
-                      return confirm(
-                        'Voulez-vous vraiment supprimer ce client ?',
-                      );
-                    "
-                  >
-                    Supprimer
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-      </main>
+      <a href="/dashboard">Retour au dashboard</a>
     </div>
+
+    <script>
+      function chargerClients() {
+        fetch("/api/clients")
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById("resultat").innerText = data;
+          })
+          .catch((error) => {
+            document.getElementById("resultat").innerText =
+              "Erreur : impossible d'appeler l'API";
+          });
+      }
+    </script>
   </body>
 </html>
